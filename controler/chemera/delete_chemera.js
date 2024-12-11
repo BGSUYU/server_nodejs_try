@@ -3,11 +3,11 @@ const {join,relative}=require('path')
 const formidable=require('formidable')
 const { error } = require('console');
 
-exports.delete=(req,res)=>{
-    const car={
-        car_number:req.body.car_number
+exports.deletes=(req,res)=>{
+    const chemera_user={
+        chemera_comment:req.body.comment,
     }
-    const listDataPath=join(__dirname,'..','data','car_data.json');
+    const listDataPath=join(__dirname,'..','data','chamera_data.json');
     let listData=[]
     console.log(listDataPath)//文件路径正确
 
@@ -26,9 +26,9 @@ exports.delete=(req,res)=>{
                 return;
             }
         })
-        const find_car_num=listData.find(u=>u.car_number===car.car_number)
-        if(find_car_num){
-            const find_car_index=listData.findIndex(u=>u.car_number===car.car_number)
+        const find_chemera_comment=listData.find(u=>u.chemera_comment===chemera_user.chemera_comment)
+        if(find_chemera_comment){
+            const find_car_index=listData.findIndex(u=>u.chemera_comment===chemera_user.chemera_comment)
             listData.splice(find_car_index,1)//删除数据
         }
         writeFile(listDataPath,JSON.stringify(listData,null,2),'utf-8',err=>{

@@ -51,7 +51,7 @@ exports.change_data = (req, res) => {
         
         // 这里可以添加将用户数据保存到数据库的代码(将user装入数据库或者保存为json格式的数据)
         console.log(req.body.nameword)
-        const filePath = join(__dirname,'..','..','data','pic', newFileName);
+        const filePath = join(__dirname,'..','..','data','head_pic', newFileName);
         // console.log(filePath) 验证图片文件名是否正确
 
         const listDataPath=join(__dirname,'..','..','data','user_data.json');
