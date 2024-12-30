@@ -31,7 +31,7 @@ exports.change_data = (req, res) => {
         const user = {
             name:req.body.name,
             nameword:req.body.nameword,
-            password:req.body.password,
+            phone:req.body.phone,
             Email:req.body.Email,
             picHash:'',//picHash尽量在客户端计算
             pic_path:''
@@ -80,18 +80,10 @@ exports.change_data = (req, res) => {
 
                 if(find_nameword){
                     const find_index = listData.findIndex(u => u.nameword === user.nameword)
-                    if(listData[find_index].picHash==null)
-                    {
-                        //使用hash值判断是否是同一个文件然后进行覆写
-                        writeFile(filePath, fileBuffer, (err) => {
-                            if (err) {
-                            return res.status(500).send('存储头像数据失败');
-                            }
-                        });
-                    }
-                    else {
-                        if(listData[find_index].picHash==fileHash){
+                     {
+                        if(listData[find_index].picHash==picHash){
                             //不进行操作
+                            console.log('文件已经存在')
                             return;
                         }
                         else{
@@ -106,6 +98,15 @@ exports.change_data = (req, res) => {
                         }
                     }
                 }
+                else{
+                    writeFile(filePath, fileBuffer, (err) => {
+                        if (err) {
+                        console.error('存储头像失败:', err);
+                        } else {
+                        console.log('存储头像成功');
+                        }
+                    });
+                }
                 if (find_nameword)
                 {
                     const find_index = listData.findIndex(u => u.nameword === user.nameword)
@@ -118,8 +119,14 @@ exports.change_data = (req, res) => {
                         listData.splice(find_index,1,user);//存在一个问题就是在表单进行提交的时候如果有一个没有提交就会造成一些错误
                     }
                 }
+                else{
+                    listData.unshift(user)
+                    console.log('存储个人信息成功')
+                }
 
                 console.log(listData)
+
+
             
                 writeFile(listDataPath,JSON.stringify(listData,null,2),'utf-8',err=>{
                     res.end(JSON.stringify({success:true,fields},null,2));//写入结束响应

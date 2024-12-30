@@ -10,18 +10,18 @@
     <h2>用户数据上传</h2>
 
     <!-- 创建表单 -->
-    <form action="http://localhost:3000/change_data_person" method="POST" enctype="multipart/form-data">
+    <form action="http://localhost:3000/change_data_db_user" method="POST">
+        <label for="username">姓名:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+
         <label for="nameword">学号:</label><br>
         <input type="text" id="nameword" name="nameword" required><br><br>
 
-        <label for="password">密码:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
+        <label for="phone">电话:</label><br>
+        <input type="phone" id="phone" name="phone" required><br><br>
 
-        <label for="Email">邮箱:</label><br>
-        <input type="email" id="Email" name="Email" required><br><br>
-
-        <label for="image">上传头像:</label><br>
-        <input type="file" id="image" name="image" accept="image/*" required><br><br>
+        <label for="email">邮箱:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
 
         <button type="submit">提交</button>
     </form>

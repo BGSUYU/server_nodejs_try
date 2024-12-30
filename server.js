@@ -7,10 +7,10 @@ const loginRoutes = require('./routers/login_ctl')
 const change_data_Routes=require('./routers/change_data_ctl')
 const get_data_Routes=require('./routers/get_data_clt')
 const cors = require('cors');
+const pool = require('./controler/mysql/db')
 
 const app = express();
 
-// 使用中间件来解析请求体
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,8 +30,6 @@ app.use((req, res, next) => {
 });//主要运用与开发环境不用于生产环境
 
 // 使用路由
-// app.use(userRoutes);
-// app.use(productRoutes);
 app.use(registerRoutes);
 app.use(loginRoutes);
 // app.use(comments);
@@ -39,6 +37,22 @@ app.use(change_data_Routes);
 app.use(get_data_Routes);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+
+pool.getConnection((err, connection) => {
+    if (err) {
+      console.error('Error connecting to the database:', err);
+      process.exit(1); // 如果连接失败，退出进程
+    }
+    console.log('Connected to the database');
+  
+    // 数据库连接成功后启动服务器
+    app.listen(PORT, () => {
+      console.log(`Server running on port http://localhost:${PORT}`);
+    });
+  // 使用中间件来解析请求体
+
+    // 关闭连接
+    connection.release();
+  
+    // 你的路由和中间件...
+      });
